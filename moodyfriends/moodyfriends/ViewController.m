@@ -22,13 +22,26 @@
 @end
 
 @implementation ViewController{
-    IBOutlet UITableView *table;
+    
+    IBOutlet UIImageView *face;
 }
 
 
 - (void)actionSheet:(UIActionSheet *)actionSheet
 clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    NSMutableArray *aniImages = [[NSMutableArray alloc] init];
+    
+    for(int i = 1; i < 50; i++){
+        [aniImages addObject:[UIImage imageNamed:[NSString stringWithFormat:@"Face_white-%i.png", i]]];
+    }
+    
+    face.animationImages = aniImages;
+    
+    face.animationDuration = 8.0;
+    face.animationRepeatCount = 0;   // loop forever
+    [face startAnimating];
+    
     if (buttonIndex != (actionSheet.numberOfButtons - 1)) {
         [_apiManager
          performReverseAuthForAccount:_accounts[buttonIndex]
@@ -50,7 +63,41 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
                                            delegate:nil
                                            cancelButtonTitle:@"OK"
                                            otherButtonTitles:nil];
-                     [alert show];
+                     //[alert show];
+                     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://moodyfriends.herokuapp.com/api/feed"] cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:60];
+                     [request setHTTPMethod:@"POST"];
+                     
+                     NSMutableString* postDataString = [[NSMutableString alloc] init];
+                     [postDataString appendFormat:@"authString=%@",lined];
+
+                     // etc...
+                     
+                     [request setHTTPBody:[postDataString dataUsingEncoding:NSUTF8StringEncoding]];
+                     
+                     [NSURLConnection
+                      sendAsynchronousRequest:request
+                      queue:[[NSOperationQueue alloc] init]
+                      completionHandler:^(NSURLResponse *response,
+                                          NSData *data,
+                                          NSError *error)
+                      {
+                          
+                          if ([data length] > 0 && error == nil)
+                          {
+                              
+                              // DO YOUR WORK HERE
+                              
+                          }
+                          else if ([data length] == 0 && error == nil)
+                          {
+                              NSLog(@"Nothing was downloaded.");
+                          }
+                          else if (error != nil){
+                              NSLog(@"Error = %@", error);
+                          }
+                          
+                      }];
+                     
                      [self performSegueWithIdentifier:@"homeSegue" sender:self];
                  });
              }
@@ -69,7 +116,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     [self obtainAccessToAccountsWithBlock:^(BOOL granted) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (granted) {
-                _reverseAuthBtn.enabled = YES;
+                [self performSelector:@selector(performAuth)];
             }
             else {
                 NSLog(@"You were not granted access to the Twitter accounts.");
@@ -139,6 +186,35 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     }
 }
 
+-(void)performAuth{
+    if ([TWAPIManager isLocalTwitterAccountAvailable]) {
+        UIActionSheet *sheet = [[UIActionSheet alloc]
+                                initWithTitle:@"Choose a Twitter account"
+                                delegate:self
+                                cancelButtonTitle:nil
+                                destructiveButtonTitle:nil
+                                otherButtonTitles:nil];
+        
+        for (ACAccount *acct in _accounts) {
+            [sheet addButtonWithTitle:acct.username];
+        }
+        
+        [sheet addButtonWithTitle:@"Cancel"];
+        [sheet setDestructiveButtonIndex:[_accounts count]];
+        [sheet showInView:self.view];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"No Accounts"
+                              message:@"Please configure a Twitter "
+                              "account in the device settings."
+                              delegate:nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
 
 
 - (void)viewDidLoad
@@ -175,6 +251,10 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     //[self.view addSubview:_reverseAuthBtn];
     
     [self refreshTwitterAccounts];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    //[self performSelector:@selector(performAuth)];
 }
 
 - (void)dealloc
