@@ -11,6 +11,7 @@
 #import <Twitter/Twitter.h>
 #import "TWSignedRequest.h"
 #import <Accounts/Accounts.h>
+#import "MainViewController.h"
 
 @interface ViewController ()
 
@@ -24,6 +25,7 @@
 @implementation ViewController{
     
     IBOutlet UIImageView *face;
+    NSData *datar;
 }
 
 
@@ -33,7 +35,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     NSMutableArray *aniImages = [[NSMutableArray alloc] init];
     
     for(int i = 1; i < 50; i++){
-        [aniImages addObject:[UIImage imageNamed:[NSString stringWithFormat:@"Face_white-%i.png", i]]];
+        [aniImages addObject:[UIImage imageNamed:[NSString stringWithFormat:@"Faces-large-white-%i.png", i]]];
     }
     
     face.animationImages = aniImages;
@@ -68,11 +70,13 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
                      [request setHTTPMethod:@"POST"];
                      
                      NSMutableString* postDataString = [[NSMutableString alloc] init];
-                     [postDataString appendFormat:@"authString=%@",lined];
+                     //[postDataString appendFormat:@"authString=%@",responseStr];
 
                      // etc...
                      
-                     [request setHTTPBody:[postDataString dataUsingEncoding:NSUTF8StringEncoding]];
+                     NSLog(@"%@", responseStr);
+                     
+                     [request setHTTPBody:[responseStr dataUsingEncoding:NSUTF8StringEncoding]];
                      
                      [NSURLConnection
                       sendAsynchronousRequest:request
@@ -84,9 +88,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
                           
                           if ([data length] > 0 && error == nil)
                           {
-                              
-                              // DO YOUR WORK HERE
-                              
+                              datar = data;
+                              [self performSegueWithIdentifier:@"homeSegue" sender:self];
                           }
                           else if ([data length] == 0 && error == nil)
                           {
@@ -98,13 +101,20 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
                           
                       }];
                      
-                     [self performSegueWithIdentifier:@"homeSegue" sender:self];
+                     
                  });
              }
              else {
                  NSLog(@"Error!\n%@", [error localizedDescription]);
              }
          }];
+    }
+}
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"homeSegue"]){
+        NSError* error;
+        ((MainViewController *)segue.destinationViewController).json = [NSJSONSerialization JSONObjectWithData:datar options:kNilOptions error:&error];
     }
 }
 

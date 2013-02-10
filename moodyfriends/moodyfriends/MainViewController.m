@@ -21,14 +21,19 @@
     IBOutlet UITableView *table;
     IBOutlet UIImageView *profPic;
     IBOutlet UILabel *name;
-    NSDictionary *json;
+    //NSDictionary *json;
     NSMutableArray *jsonFiltered;
     IBOutlet UITextField *searchText;
     IBOutlet UIImageView *searchBg;
     BOOL searching;
     BOOL keyShown;
     int tableHeight;
+    UIColor *bottomColor;
+    IBOutlet UIImageView *smile;
+    UITableViewCell *lastCell;
 }
+
+@synthesize json;
 
 -(void)textFieldDidChange{
     if(![searchText.text isEqualToString:@""]){
@@ -36,7 +41,7 @@
     
         for (NSDictionary* user in json)
         {
-            NSRange nameRange = [[user objectForKey:@"screen_name"] rangeOfString:searchText.text options:NSCaseInsensitiveSearch];
+            NSRange nameRange = [[user objectForKey:@"name"] rangeOfString:searchText.text options:NSCaseInsensitiveSearch];
             if(nameRange.location != NSNotFound)
             {
                 [jsonFiltered addObject:user];
@@ -49,8 +54,8 @@
         [table reloadData];
     }
     
-    NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:0];
-    UITableViewCell *cell = [table cellForRowAtIndexPath:path];
+    //NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:0];
+    //UITableViewCell *cell = [table cellForRowAtIndexPath:path];
     //[self.view setBackgroundColor:cell.contentView.backgroundColor];
     //name.text = ((ColorCell *)cell).name.text;
     //[profPic setImageWithURL:[NSURL URLWithString:[[((NSArray *)json) objectAtIndex:path] objectForKey:@"profile_url"]] placeholderImage:[UIImage imageNamed:@"twit.png"]];
@@ -99,7 +104,6 @@
         searchBg.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height-280, searchBg.frame.size.width, searchBg.frame.size.height);
         table.frame = CGRectMake(0, 0, table.frame.size.width, 290);
     }else{
-        
         searchText.frame = CGRectMake(20, 511, searchText.frame.size.width, searchText.frame.size.height);
         searchBg.frame = CGRectMake(0, 503, searchBg.frame.size.width, searchBg.frame.size.height);
         table.frame = CGRectMake(0, 158, table.frame.size.width, 347);
@@ -112,25 +116,50 @@
     }
     
     if([items count] != 0){
-    float blueRatio = 255.0f/((float)[items count]/2) * indexPath.row;
-    float redRatio = 255.0f/((float)[items count]/2) * (indexPath.row - ([items count]/2));
-    float greenRatio1 = 255.0f/((float)[items count]/2) * (indexPath.row - ((float)[items count]/3));
-    float greenRatio2 = 255.0f/((float)[items count]/2) * (indexPath.row - (((float)[items count]/3) * 2));
-    float blueVal = (0.0f+blueRatio)/255.0f;
-    float redVal = (255.0f-redRatio)/255.0f;
-    float greenVal = (255.0f-greenRatio1)/255.0f;
-    float greenVal2 = (255.0f-greenRatio2)/255.0f;
+        
+    float redVal = ((252.0f - 236.0f) / ((float)[items count]/2));
+    float redVal2 = 236 + (redVal * indexPath.row);
+        
+    float greenVal = (179 / ((float)[items count]/2));
+    float greenVal2 = 0 + (greenVal * indexPath.row);
+        
+    float blueVal = ((136.0f - 21.0f) / ((float)[items count]/2));
+    float blueVal2 = 136 - (blueVal * indexPath.row);
+        
+    float redVal3 = 252.0f / ((float)[items count]/2);
+    float redVal4 = 252.0f - (redVal3 * (indexPath.row - ((float)[items count]/2)));
+        
+    float greenVal3 = ((179 - 174) / ((float)[items count]/2));
+    float greenVal4 = 179 - (greenVal3 * (indexPath.row - ((float)[items count]/2)));
+        
+    float blueVal3 = ((239.0f - 21.0f) / ((float)[items count]/2));
+    float blueVal4 = 21 + (blueVal3 * (indexPath.row - ((float)[items count]/2)));
+        
     if(indexPath.row < ((float)[json count]/2)){
-        cell.contentView.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:greenVal2 blue:blueVal alpha:1.0f];
+        if([items count] < 3){
+            bottomColor = [UIColor colorWithRed:redVal2/255.0f green:greenVal2/255.0f blue:blueVal2/255.0f alpha:1.0f];
+        }
+        cell.contentView.backgroundColor = [UIColor colorWithRed:redVal2/255.0f green:greenVal2/255.0f blue:blueVal2/255.0f alpha:1.0f];
     }else{
-        cell.contentView.backgroundColor = [UIColor colorWithRed:redVal green:greenVal2 blue:255.0f/255.0f alpha:1.0f];
+        cell.contentView.backgroundColor = [UIColor colorWithRed:redVal4/255.0f green:greenVal4/255.0f blue:blueVal4/255.0f alpha:1.0f];
+        if(indexPath.row == [items count] - 1){
+            bottomColor = [UIColor colorWithRed:redVal4/255.0f green:greenVal4/255.0f blue:blueVal4/255.0f alpha:1.0f];
+        }
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.name.text = [NSString stringWithFormat:@"@%@",[[((NSArray *)items) objectAtIndex:indexPath.row] objectForKey:@"screen_name"] ];
+    cell.name.text = [NSString stringWithFormat:@"%@",[[((NSArray *)items) objectAtIndex:indexPath.row] objectForKey:@"name"] ];
     }else{
         cell.name.text = [NSString stringWithFormat:@"No items found"];
     }
+    
+    CALayer * l = [profPic layer];
+    [l setMasksToBounds:YES];
+    [l setCornerRadius:5.0];
+    
+    // You can even add a border
+    [l setBorderWidth:0.8];
+    [l setBorderColor:[[UIColor whiteColor] CGColor]];
     
     return cell;
 }
@@ -140,12 +169,29 @@
     if(offset.y > 0 && offset.y < table.contentSize.height){
         NSIndexPath *path = [table indexPathForRowAtPoint:offset];
         UITableViewCell *cell = [table cellForRowAtIndexPath:path];
+        
+        int ran = arc4random_uniform(49);
+        if(lastCell != cell){
+            [smile setImage:[UIImage imageNamed:[NSString stringWithFormat:@"Faces-large-white-%i.png", ran]]];
+        }
+        lastCell = cell;
         [self.view setBackgroundColor:cell.contentView.backgroundColor];
         name.text = ((ColorCell *)cell).name.text;
         [profPic setImageWithURL:[NSURL URLWithString:[[((NSArray *)json) objectAtIndex:path.row] objectForKey:@"profile_url"]]
-                       placeholderImage:[UIImage imageNamed:@"twit.png"]];
+                       placeholderImage:[UIImage imageNamed:@"UserPlaceHolder.png"]];
     }
     
+    if(offset.y < 0){
+        NSIndexPath *path = [table indexPathForRowAtPoint:CGPointMake(0, 1)];
+        UITableViewCell *cell = [table cellForRowAtIndexPath:path];
+        [table setBackgroundColor:cell.contentView.backgroundColor];
+    }else if(offset.y > 0){
+        [table setBackgroundColor:bottomColor];
+    }
+    
+    if(!searching && !keyShown){
+        table.contentSize = CGSizeMake(320, [json count]*60 + 290);
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -213,18 +259,18 @@
     
     recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
-    [[self view] addGestureRecognizer:recognizer];
+    //[[self view] addGestureRecognizer:recognizer];
     
     float blueRatio = 255.0f/15.0f * 0;
     float greenRatio2 = 255.0f/15.f * (0 - 20);
     float blueVal = (0.0f+blueRatio)/255.0f;
     float greenVal2 = (255.0f-greenRatio2)/255.0f;
-    [self.view setBackgroundColor:[UIColor colorWithRed:255.0f/255.0f green:greenVal2 blue:blueVal alpha:1.0f]];
+    [self.view setBackgroundColor:[UIColor colorWithRed:236.0f/255.0f green:0.0f/255.0f blue:136.0f/255.0f alpha:1.0f]];
     
-    NSError* error;
+   /* NSError* error;
     NSData *myData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://moodyfriends.herokuapp.com/examples/v1.json"]];
-    json = [NSJSONSerialization JSONObjectWithData:myData options:kNilOptions error:&error];
-    json = [json objectForKey:@"following"];
+    json = [NSJSONSerialization JSONObjectWithData:myData options:kNilOptions error:&error];*/
+    //json = [json objectForKey:@"following"];
     
     [searchText addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
     searching = NO;
@@ -235,6 +281,8 @@
     keyShown = NO;
     
     tableHeight = 347;
+    
+    NSLog(@"%i", [json count]);
 
 }
 

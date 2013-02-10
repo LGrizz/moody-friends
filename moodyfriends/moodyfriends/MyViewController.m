@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "TweetCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface MyViewController ()
 
@@ -112,8 +113,16 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [profPic setImageWithURL:[NSURL URLWithString:[user objectForKey:@"profile_url"]]
-            placeholderImage:[UIImage imageNamed:@"twit.png"]];
-    name.text = [NSString stringWithFormat:@"@%@", [user objectForKey:@"screen_name"]];
+            placeholderImage:[UIImage imageNamed:@"UserPlaceHolder.pngg"]];
+    name.text = [NSString stringWithFormat:@"@%@", [user objectForKey:@"name"]];
+    
+    CALayer * l = [profPic layer];
+    [l setMasksToBounds:YES];
+    [l setCornerRadius:5.0];
+    
+    // You can even add a border
+    [l setBorderWidth:0.8];
+    [l setBorderColor:[[UIColor whiteColor] CGColor]];
 }
 
 - (void)didReceiveMemoryWarning

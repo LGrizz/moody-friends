@@ -8,6 +8,13 @@
 
 #import "ViewController.h"
 
-@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>{
+    
+    NSDictionary *json;
+
+}
+
+@property (nonatomic, retain) NSDictionary *json;
+
 
 @end
