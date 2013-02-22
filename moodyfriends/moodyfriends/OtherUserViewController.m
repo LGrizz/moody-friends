@@ -51,26 +51,8 @@
         cell.contentView.backgroundColor = [UIColor colorWithRed:236.0f/255.0f green:0.0f/255.0f blue:136.0f/255.0f alpha:1.0f];
     }
     
-    NSLog(@"%f", val);
-    
-    /*switch ([ integerValue]) {
-        case -1:
-            cell.contentView.backgroundColor = [UIColor colorWithRed:0.0f/255.0f green:174.0f/255.0f blue:239.0f/255.0f alpha:1.0f];
-            break;
-        case 0:
-            cell.contentView.backgroundColor = [UIColor colorWithRed:252.0f/255.0f green:179.0f/255.0f blue:21.0f/255.0f alpha:1.0f];
-            break;
-        case 1:
-            cell.contentView.backgroundColor = [UIColor colorWithRed:236.0f/255.0f green:0.0f/255.0f blue:136.0f/255.0f alpha:1.0f];
-            break;
-        default:
-            break;
-    }*/
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.tweet.text = [[[user objectForKey:@"tweets"] objectAtIndex:indexPath.row] objectForKey:@"text"];
-    
-    
     return cell;
 }
 

@@ -11,10 +11,11 @@
 @interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>{
     
     NSDictionary *json;
+    NSString *authString;
 
 }
 
-@property (nonatomic, retain) NSDictionary *json;
-
+@property (nonatomic, strong) NSDictionary *json;
+@property (nonatomic, strong) NSString *authString;
 
 @end

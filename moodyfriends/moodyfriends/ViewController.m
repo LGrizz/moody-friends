@@ -26,6 +26,7 @@
     
     IBOutlet UIImageView *face;
     NSData *datar;
+    NSURLRequest *authRequest;
 }
 
 
@@ -44,7 +45,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     face.animationRepeatCount = 0;   // loop forever
     [face startAnimating];
     
-    if (buttonIndex != (actionSheet.numberOfButtons - 1)) {
+    //if (buttonIndex != (actionSheet.numberOfButtons - 1)) {
         [_apiManager
          performReverseAuthForAccount:_accounts[buttonIndex]
          withHandler:^(NSData *responseData, NSError *error) {
@@ -78,6 +79,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
                      
                      [request setHTTPBody:[responseStr dataUsingEncoding:NSUTF8StringEncoding]];
                      
+                     authRequest = responseStr;
+                     
                      [NSURLConnection
                       sendAsynchronousRequest:request
                       queue:[[NSOperationQueue alloc] init]
@@ -108,13 +111,14 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
                  NSLog(@"Error!\n%@", [error localizedDescription]);
              }
          }];
-    }
+    
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"homeSegue"]){
         NSError* error;
         ((MainViewController *)segue.destinationViewController).json = [NSJSONSerialization JSONObjectWithData:datar options:kNilOptions error:&error];
+        ((MainViewController *)segue.destinationViewController).authString = authRequest;
     }
 }
 
@@ -180,7 +184,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
             [sheet addButtonWithTitle:acct.username];
         }
         
-        [sheet addButtonWithTitle:@"Cancel"];
+        //[sheet addButtonWithTitle:@"Cancel"];
         [sheet setDestructiveButtonIndex:[_accounts count]];
         [sheet showInView:self.view];
     }
@@ -209,7 +213,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
             [sheet addButtonWithTitle:acct.username];
         }
         
-        [sheet addButtonWithTitle:@"Cancel"];
+        //[sheet addButtonWithTitle:@"Cancel"];
         [sheet setDestructiveButtonIndex:[_accounts count]];
         [sheet showInView:self.view];
     }
