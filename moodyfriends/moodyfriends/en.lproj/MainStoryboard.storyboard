@@ -131,7 +131,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8id-VH-BDW">
-                                <rect key="frame" x="205" y="74" width="80" height="45"/>
+                                <rect key="frame" x="205" y="74" width="95" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -188,7 +188,7 @@
                                 <rect key="frame" x="0.0" y="523" width="320" height="45"/>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Search" minimumFontSize="17" clearButtonMode="whileEditing" id="8gN-xa-01o">
-                                <rect key="frame" x="20" y="531" width="260" height="30"/>
+                                <rect key="frame" x="20" y="531" width="226" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.4823529412" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
@@ -197,6 +197,21 @@
                                     <outlet property="delegate" destination="Sr9-D6-2x4" id="JTG-je-f3y"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Z5f-DM-cZc">
+                                <rect key="frame" x="285" y="533" width="26" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="gear.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="w19-tP-AbY" kind="push" id="aui-i7-CHa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -207,6 +222,7 @@
                         <outlet property="profPic" destination="2n7-dz-ahE" id="wvu-Or-0jA"/>
                         <outlet property="searchBg" destination="JOO-fn-PKH" id="bWz-iN-1QT"/>
                         <outlet property="searchText" destination="8gN-xa-01o" id="cD1-CP-YnZ"/>
+                        <outlet property="settingsButton" destination="Z5f-DM-cZc" id="Ebd-yU-VlD"/>
                         <outlet property="smile" destination="M8T-3S-WWl" id="6HQ-YN-H1f"/>
                         <outlet property="table" destination="rNA-Rc-a4h" id="fWo-SV-NRi"/>
                         <segue destination="MHS-mh-td3" kind="push" identifier="otherUser" id="zcJ-3b-B47"/>
@@ -216,6 +232,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BwJ-ZL-mLD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="888" y="360"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="uRD-m0-db3">
+            <objects>
+                <viewController id="w19-tP-AbY" customClass="SettingsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0By-z6-Aoc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="v40-sM-7dD"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kh9-MR-KYq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="888" y="1051"/>
         </scene>
         <!--Other User View Controller-->
         <scene sceneID="0vd-Nv-MZa">
@@ -230,7 +261,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mdo-C7-cds">
-                                <rect key="frame" x="205" y="74" width="80" height="45"/>
+                                <rect key="frame" x="197.5" y="74" width="95" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -299,6 +330,7 @@
         <image name="Searchbar2.png" width="320" height="45"/>
         <image name="Shadown.png" width="320" height="18"/>
         <image name="UserPlaceHolder.png" width="50" height="50"/>
+        <image name="gear.png" width="26" height="27"/>
         <image name="smile1.png" width="142" height="142"/>
         <image name="twit.png" width="256" height="256"/>
     </resources>

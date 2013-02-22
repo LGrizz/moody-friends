@@ -26,7 +26,7 @@
     
     IBOutlet UIImageView *face;
     NSData *datar;
-    NSURLRequest *authRequest;
+    NSString *authRequest;
 }
 
 

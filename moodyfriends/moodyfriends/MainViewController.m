@@ -26,6 +26,7 @@
     NSMutableArray *jsonFiltered;
     IBOutlet UITextField *searchText;
     IBOutlet UIImageView *searchBg;
+    IBOutlet UIButton *settingsButton;
     BOOL searching;
     BOOL keyShown;
     int tableHeight;
@@ -39,7 +40,7 @@
     IBOutlet UIView *cover;
 }
 
-@synthesize json;
+@synthesize json, authString;
 
 -(void)textFieldDidChange{
     if(![searchText.text isEqualToString:@""]){
@@ -321,7 +322,7 @@
              forControlEvents:UIControlEventValueChanged];
     refreshCtrl = refreshControl;
     
-    refreshCtrl.tintColor = [UIColor whiteColor];
+    refreshCtrl.tintColor = [UIColor whiteColor];//[UIColor colorWithRed:51.0f/255.0f green:123.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
     [table addSubview:refreshControl];
 
 }
@@ -348,7 +349,6 @@
          if ([data length] > 0 && error == nil)
          {
              json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-             NSLog(@"%@", json);
              
              [jsonColored removeAllObjects];
              
@@ -435,6 +435,7 @@
                      animations:^{
                          searchText.frame = CGRectMake(20, [UIScreen mainScreen].applicationFrame.size.height - keyboardSize.height - searchText.frame.size.height - 7, searchText.frame.size.width, searchText.frame.size.height);
                          searchBg.frame = CGRectMake(0, [UIScreen mainScreen].applicationFrame.size.height - keyboardSize.height - searchBg.frame.size.height, searchBg.frame.size.width, searchBg.frame.size.height);
+                         settingsButton.frame = CGRectMake(settingsButton.frame.origin.x, [UIScreen mainScreen].applicationFrame.size.height - keyboardSize.height - settingsButton.frame.size.height - 9, settingsButton.frame.size.width, settingsButton.frame.size.height);
                          table.frame = CGRectMake(0, 0, table.frame.size.width, 290);
                      }
                      completion:^(BOOL finished) {
@@ -467,6 +468,7 @@
                          
                          searchText.frame = CGRectMake(20, [UIScreen mainScreen].applicationFrame.size.height - searchText.frame.size.height - 7, searchText.frame.size.width, searchText.frame.size.height);
                          searchBg.frame = CGRectMake(0, [UIScreen mainScreen].applicationFrame.size.height - searchBg.frame.size.height, searchBg.frame.size.width, searchBg.frame.size.height);
+                         settingsButton.frame = CGRectMake(settingsButton.frame.origin.x, [UIScreen mainScreen].applicationFrame.size.height - settingsButton.frame.size.height - 9, settingsButton.frame.size.width, settingsButton.frame.size.height);
                          table.frame = CGRectMake(0, 158, table.frame.size.width, 347);
                      }
                      completion:^(BOOL finished) {
@@ -479,6 +481,26 @@
     }
     
     keyShown = NO;
+    
+    NSIndexPath *path = [table indexPathForRowAtPoint:CGPointMake(0, 1)];
+    UITableViewCell *cell = [table cellForRowAtIndexPath:path];
+
+    
+    if(!searching){
+        [profPic setImageWithURL:[NSURL URLWithString:[[((NSArray *)jsonColored) objectAtIndex:path.row] objectForKey:@"profile_url"]]
+                placeholderImage:[UIImage imageNamed:@"UserPlaceHolder.png"]];
+        name.text = [[((NSArray *)jsonColored) objectAtIndex:path.row] objectForKey:@"name"];
+        [table setBackgroundColor:[[((NSArray *)jsonColored) objectAtIndex:path.row] objectForKey:@"color"]];
+        self.view.backgroundColor = [[((NSArray *)jsonColored) objectAtIndex:path.row] objectForKey:@"color"];
+    }else{
+        if([jsonFiltered count] > 0){
+            [profPic setImageWithURL:[NSURL URLWithString:[[((NSArray *)jsonFiltered) objectAtIndex:path.row] objectForKey:@"profile_url"]]
+                placeholderImage:[UIImage imageNamed:@"UserPlaceHolder.png"]];
+            name.text = [[((NSArray *)jsonFiltered) objectAtIndex:path.row] objectForKey:@"name"];
+            [table setBackgroundColor:[[((NSArray *)jsonFiltered) objectAtIndex:path.row] objectForKey:@"color"]];
+            self.view.backgroundColor = [[((NSArray *)jsonFiltered) objectAtIndex:path.row] objectForKey:@"color"];
+        }
+    }
 
 }
 

@@ -151,6 +151,9 @@
 		27C3955016C8639200046140 /* Faces-large-white-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C3951E16C8639100046140 /* Faces-large-white-48.png */; };
 		27C3955116C8639200046140 /* Faces-large-white-49.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C3951F16C8639100046140 /* Faces-large-white-49.png */; };
 		27C3955216C8639200046140 /* Faces-large-white-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C3952016C8639100046140 /* Faces-large-white-50.png */; };
+		27D6D8EC16D73C1300C81897 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D6D8EA16D73C1300C81897 /* gear.png */; };
+		27D6D8ED16D73C1300C81897 /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D6D8EB16D73C1300C81897 /* gear@2x.png */; };
+		27D6D8F016D73DE400C81897 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D6D8EF16D73DE400C81897 /* SettingsViewController.m */; };
 		27F96B1A16C6B4A800A84F1F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F96B1916C6B4A800A84F1F /* UIKit.framework */; };
 		27F96B1C16C6B4A800A84F1F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F96B1B16C6B4A800A84F1F /* Foundation.framework */; };
 		27F96B1E16C6B4A800A84F1F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F96B1D16C6B4A800A84F1F /* CoreGraphics.framework */; };
@@ -343,6 +346,10 @@
 		27C3951E16C8639100046140 /* Faces-large-white-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Faces-large-white-48.png"; sourceTree = "<group>"; };
 		27C3951F16C8639100046140 /* Faces-large-white-49.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Faces-large-white-49.png"; sourceTree = "<group>"; };
 		27C3952016C8639100046140 /* Faces-large-white-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Faces-large-white-50.png"; sourceTree = "<group>"; };
+		27D6D8EA16D73C1300C81897 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
+		27D6D8EB16D73C1300C81897 /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@2x.png"; sourceTree = "<group>"; };
+		27D6D8EE16D73DE400C81897 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		27D6D8EF16D73DE400C81897 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		27F96B1616C6B4A800A84F1F /* moodyfriends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moodyfriends.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F96B1916C6B4A800A84F1F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		27F96B1B16C6B4A800A84F1F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -472,6 +479,8 @@
 		27C3948016C813C200046140 /* Faces */ = {
 			isa = PBXGroup;
 			children = (
+				27D6D8EA16D73C1300C81897 /* gear.png */,
+				27D6D8EB16D73C1300C81897 /* gear@2x.png */,
 				27C394EB16C8222500046140 /* IconFlippedBig.png */,
 				27C394E916C8222300046140 /* IconFlippedSmall.png */,
 				27C394E516C81E1100046140 /* IconBig.png */,
@@ -629,6 +638,8 @@
 				2768D99E16C6C9C700F7B564 /* MainViewController.m */,
 				2768D9A316C6E18F00F7B564 /* OtherUserViewController.h */,
 				2768D9A416C6E18F00F7B564 /* OtherUserViewController.m */,
+				27D6D8EE16D73DE400C81897 /* SettingsViewController.h */,
+				27D6D8EF16D73DE400C81897 /* SettingsViewController.m */,
 				2768D9A616C6E71D00F7B564 /* MyViewController.h */,
 				2768D9A716C6E71E00F7B564 /* MyViewController.m */,
 				2768D9B116C709BA00F7B564 /* ColorCell.h */,
@@ -868,6 +879,8 @@
 				27C3955016C8639200046140 /* Faces-large-white-48.png in Resources */,
 				27C3955116C8639200046140 /* Faces-large-white-49.png in Resources */,
 				27C3955216C8639200046140 /* Faces-large-white-50.png in Resources */,
+				27D6D8EC16D73C1300C81897 /* gear.png in Resources */,
+				27D6D8ED16D73C1300C81897 /* gear@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -925,6 +938,7 @@
 				2768DA0F16C731B600F7B564 /* NSData+Base64.m in Sources */,
 				2768DA1016C731B600F7B564 /* OAuth+Additions.m in Sources */,
 				2768DA1116C731B600F7B564 /* OAuthCore.m in Sources */,
+				27D6D8F016D73DE400C81897 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
